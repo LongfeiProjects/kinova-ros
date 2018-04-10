@@ -38,6 +38,7 @@
 #include <kinova_msgs/ZeroTorques.h>
 #include <kinova_msgs/RunCOMParametersEstimation.h>
 #include <kinova_msgs/CartesianForce.h>
+#include <kinova_msgs/SetGravityVector.h>
 
 #include <time.h>
 #include <math.h>
@@ -86,6 +87,9 @@ class KinovaArm
                                       kinova_msgs::SetEndEffectorOffset::Response& res);
 
     //Torque control
+    bool setGravityVectorCallback(kinova_msgs::SetGravityVector::Request &req, 
+                                  kinova_msgs::SetGravityVector::Response &res);
+
     bool setForceControlParamsCallback(kinova_msgs::SetForceControlParams::Request &req,
                                        kinova_msgs::SetForceControlParams::Response &res);
     bool startForceControlCallback(kinova_msgs::Start::Request &req,
@@ -140,6 +144,7 @@ class KinovaArm
     ros::ServiceServer add_trajectory_;
     ros::ServiceServer clear_trajectories_;
 
+    ros::ServiceServer set_gravity_vector_service_;
     ros::ServiceServer set_torque_control_mode_service_;
     ros::ServiceServer set_torque_control_parameters_service_;
     ros::ServiceServer set_actuator_torques_to_zero_;

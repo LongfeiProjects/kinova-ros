@@ -115,6 +115,7 @@ class KinovaComm
     void SetTorqueControlState(int state);
     void setJointTorques(float joint_torque[]);
     void setZeroTorque();
+    void setGravityVector(float gravity_vector[GRAVITY_VECTOR_SIZE]);
     void getGravityCompensatedTorques(KinovaAngles &torques);
 
     //Set torque parameters

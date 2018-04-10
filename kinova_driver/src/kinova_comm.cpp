@@ -741,6 +741,27 @@ void KinovaComm::getJointTorques(KinovaAngles &tqs)
     tqs = KinovaAngles(kinova_tqs.Actuators);
 }
 
+/**
+ * @brief This function reset the gravity vector incase robot is not install in upward direction(default).
+ * @param gravity_vector An array that contains gravity vector. Unit is meter/second^2. By default it is [0.0 0.0 -9.81].
+ */
+void KinovaComm::setGravityVector(float gravity_vector[GRAVITY_VECTOR_SIZE])
+{
+    boost::recursive_mutex::scoped_lock lock(api_mutex_);
+
+    if (isStopped())
+    {
+        ROS_INFO("The gravity vector could not be set because the arm is stopped");
+        return;
+    }
+
+    int result = kinova_api_.setGravityVector(gravity_vector);
+    if (result != NO_ERROR_KINOVA)
+    {
+        throw KinovaCommException("Could not set the client configuration", result);
+    }
+}
+
 void KinovaComm::getGravityCompensatedTorques(KinovaAngles &tqs)
 {
     boost::recursive_mutex::scoped_lock lock(api_mutex_);

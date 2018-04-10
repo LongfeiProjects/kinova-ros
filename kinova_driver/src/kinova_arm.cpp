@@ -174,6 +174,7 @@ KinovaArm::KinovaArm(KinovaComm &arm, const ros::NodeHandle &nodeHandle, const s
     clear_trajectories_ = node_handle_.advertiseService("in/clear_trajectories",
                           &KinovaArm::clearTrajectoriesServiceCallback, this);
 
+    set_gravity_vector_service_ = node_handle_.advertiseService("in/set_gravity_vector", &KinovaArm::setGravityVectorCallback, this);
     set_force_control_params_service_ = node_handle_.advertiseService("in/set_force_control_params", &KinovaArm::setForceControlParamsCallback, this);
     start_force_control_service_ = node_handle_.advertiseService("in/start_force_control", &KinovaArm::startForceControlCallback, this);
     stop_force_control_service_ = node_handle_.advertiseService("in/stop_force_control", &KinovaArm::stopForceControlCallback, this);
@@ -397,6 +398,14 @@ bool KinovaArm::clearTrajectoriesServiceCallback(
         kinova_msgs::ClearTrajectories::Response &res)
 {
     kinova_comm_.eraseAllTrajectories();
+}
+
+bool KinovaArm::setGravityVectorCallback(kinova_msgs::SetGravityVector::Request &req, kinova_msgs::SetGravityVector::Response &res)
+{
+    float gravity_vector[GRAVITY_VECTOR_SIZE] = {req.gravity_vector.x, req.gravity_vector.y, req.gravity_vector.z};
+    kinova_comm_.setGravityVector(gravity_vector);
+
+    return true;
 }
 
 bool KinovaArm::setForceControlParamsCallback(

@@ -30,6 +30,7 @@ add_service_files(
   HomeArm.srv
   SetForceControlParams.srv
   SetEndEffectorOffset.srv
+  SetGravityVector.srv
   SetNullSpaceModeState.srv
   SetTorqueControlMode.srv
   SetTorqueControlParameters.srv
